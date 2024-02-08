@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import springdataspecpagingexample.springdata.entity.Product;
 
 @Repository
-public interface ProductRepo extends ListPagingAndSortingRepository<Product, Long> {
+public interface ProductRepo extends ListPagingAndSortingRepository<Product, Long>, CrudRepository<Product, Long> {
 
 	List<Product> findAll(Specification<Product> spec, Pageable pageable);
 

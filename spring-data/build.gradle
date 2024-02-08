@@ -4,14 +4,43 @@ plugins {
 	alias(commonLibs.plugins.spring.dependency.management)
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("catalog-test:version-catalog-bom-kit:$MY_COMMONS_VER")
+	}
+}
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//version comes from catalog
 	implementation commonLibs.commons.lang3
+
+	//version comes from mavenBom
+	implementation 'org.apache.commons:commons-collections4'
+
+	//EG unknown version
+//	implementation 'org.apache.commons:commons-text'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+compileJava {
+	// settings from BOM
+	sourceCompatibility = dependencyManagement.importedProperties['JAVA_VERSION']
+	targetCompatibility = dependencyManagement.importedProperties['JAVA_VERSION']
+	options.encoding = dependencyManagement.importedProperties['options.encoding']
+	options.compilerArgs = ['-parameters']
+}
+
+compileTestJava {
+	options.encoding = dependencyManagement.importedProperties['options.encoding']
 }
 
 tasks.named('test') {
