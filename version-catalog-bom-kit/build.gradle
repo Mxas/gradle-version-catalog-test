@@ -1,0 +1,45 @@
+plugins {
+    id 'version-catalog'
+    id 'maven-publish'
+}
+
+version = VERSION
+group = PROJECT_GROUP
+
+repositories {
+    mavenCentral()
+}
+
+
+catalog {
+    versionCatalog {
+
+        plugin("spring-dependency-management", "io.spring.dependency-management").version("$LIB_SPRING_DEP_MANAGEMENT")
+        plugin("spring-boot", "org.springframework.boot").version("$LIB_SPRING_BOOT_VER")
+
+
+        library("apache.poi", "org.apache.poi:poi:$LIB_APACHE_POI_VER")
+        library("apache.poi-ooxml", "org.apache.poi:poi-ooxml:$LIB_APACHE_POI_VER")
+        library("commons-lang3", "org.apache.commons:commons-lang3:$LIB_APACHE_COMMON_LANG_VER")
+        library("commons-collections4", "org.apache.commons:commons-collections4:$LIB_APACHE_COMMONS_COLLECTIONS_VER")
+        library("commons-text", "org.apache.commons:commons-text:$LIB_APACHE_COMMONS_TEXT_COLLECTIONS_VER")
+        library("commons-io", "commons-io:commons-io:$LIB_COMMONS_IO_VER")
+    }
+}
+
+publishing {
+
+    repositories {
+        mavenLocal()
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId = "${project.group}"
+            artifactId = "${project.name}"
+            version = "${project.version}"
+
+            from(components["versionCatalog"])
+        }
+    }
+}

@@ -1,0 +1,14 @@
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+    }
+    versionCatalogs {
+        commonLibs {
+            from("catalog-test:version-catalog-bom-kit:$MY_COMMONS_VER")
+        }
+    }
+}
+
+rootProject.name = 'spring-data'
